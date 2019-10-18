@@ -1,7 +1,6 @@
 import os
 import sys
 from flask import Flask
-from flask_login import LoginManager
 from config import Config
 from routes import blue
 from database import db

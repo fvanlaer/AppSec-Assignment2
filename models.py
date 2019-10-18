@@ -3,6 +3,7 @@ from flask_login import UserMixin
 from database import db
 from loginman import login
 
+
 class User(UserMixin, db.Model):
 
     # User properties
