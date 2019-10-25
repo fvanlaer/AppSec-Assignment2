@@ -26,8 +26,8 @@ def login():
         if user is None or not user.check_password(form.password.data, form.phone.data):
             return render_template('login.html', title='Log In', form=form, connection_status='Incorrect')
         login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('blue.spell_check'))
-    return render_template('login.html', title='Log In', form=form, connection_status='Success')
+        return render_template('login.html', title='Log In', form=form, connection_status='Success')
+    return render_template('login.html', title='Log In', form=form)
 
 
 @blue.route('/logout')
@@ -47,7 +47,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         return render_template('register.html', title='Register', form=form, registration_status='Success')
-    return render_template('register.html', title='Register', form=form, registration_status='Failure')
+    return render_template('register.html', title='Register', form=form)
 
 
 @blue.route('/spell_check', methods=['GET', 'POST'])
