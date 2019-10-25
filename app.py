@@ -21,8 +21,8 @@ def create_app():
 
 
 def create_database(app):
-    from models import User
-    db.create_all(app)
+    with app.app_context():
+        db.create_all()
 
 
 if __name__ == '__main__':
