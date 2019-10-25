@@ -22,6 +22,7 @@ def create_app():
 
 def create_database(app):
     with app.app_context():
+        from models import User
         db.create_all()
 
 
