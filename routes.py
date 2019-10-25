@@ -4,6 +4,7 @@ from models import User
 from forms import LoginForm, RegistrationForm, SpellCheckForm
 from database import db
 import subprocess
+import os
 
 blue = Blueprint('blue', __name__)
 
@@ -62,6 +63,7 @@ def spell_check():
         command = ["./spell_check", "input.txt", "wordlist.txt"]
         sub = subprocess.Popen(command, stdout=subprocess.PIPE)
         misspelled = sub.communicate()[0]
+        os.remove("input.txt")
         return render_template('spell_check.html', title='Spell Check', form=form, output=misspelled)
     else:
         return render_template('spell_check.html', title='Spell Check', form=form)
