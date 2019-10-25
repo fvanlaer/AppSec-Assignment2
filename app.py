@@ -14,18 +14,14 @@ def create_app():
     # Getting configuration info from config.py
     app.config.from_object(Config)
     db.init_app(app)
+    with app.app_context():
+        db.create_all()
     login_initializing(app)
     app.register_blueprint(blue, url_prefix='')
 
     return app
 
 
-def create_database(app):
-    with app.app_context():
-        db.create_all()
-
-
 if __name__ == '__main__':
     app = create_app()
-    create_database(app)
     app.run()
