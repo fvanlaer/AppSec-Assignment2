@@ -64,6 +64,8 @@ def spell_check():
         sub = subprocess.Popen(command, stdout=subprocess.PIPE)
         misspelled = sub.communicate()[0].replace("\n", ", ")[:-2]
         os.remove("input.txt")
-        return render_template('spell_check.html', title='Spell Check', form=form, input=form.text_to_check.data, output=misspelled)
+        supplied_text = form.text_to_check.data
+        form.text_to_check.data = ""
+        return render_template('spell_check.html', title='Spell Check', form=form, input=supplied_text, output=misspelled)
     else:
         return render_template('spell_check.html', title='Spell Check', form=form)
