@@ -62,7 +62,7 @@ def spell_check():
         file.close()
         command = ["./spell_check", "input.txt", "wordlist.txt"]
         sub = subprocess.Popen(command, stdout=subprocess.PIPE)
-        misspelled = sub.communicate()[0]
+        misspelled = sub.communicate()[0].replace("\n", ", ")[:-2]
         os.remove("input.txt")
         return render_template('spell_check.html', title='Spell Check', form=form, output=misspelled)
     else:
