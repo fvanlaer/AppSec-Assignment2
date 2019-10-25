@@ -39,10 +39,10 @@ def logout():
 @blue.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('blue.index'))
+        return redirect(url_for('blue.spell_check'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, phone=form.phone.data)
+        user = User(username=form.username.data, phone=form.phone.data)
         user.set_password(form.password.data, form.phone.data)
         db.session.add(user)
         db.session.commit()
