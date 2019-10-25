@@ -7,21 +7,21 @@
         <p id="result">{{ connection_status }}</p>
         <p>
             {{ form.username.label }}<br>
-            {{ form.username(size=32) }}<br id="uname">
+            {{ form.username(size=32) }}<br>
             {% for error in form.username.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>
             {{ form.password.label }}<br>
-            {{ form.password(size=32) }}<br id="pword">
+            {{ form.password(size=32) }}<br>
             {% for error in form.password.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>
             {{ form.phone.label }}<br>
-            {{ form.phone(size=32) }}<br id="2fa">
+            {{ form.phone(size=32) }}<br>
             {% for error in form.phone.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
