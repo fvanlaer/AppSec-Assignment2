@@ -43,6 +43,8 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, phone=form.phone.data)
+        if User.query.filter_by(username=form.username.data).first() is not None:
+            return render_template('register.html', title='Register', form=form, registration_status='Failure')
         user.set_password(form.password.data, form.phone.data)
         db.session.add(user)
         db.session.commit()
