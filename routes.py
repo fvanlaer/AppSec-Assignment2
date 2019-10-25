@@ -18,7 +18,7 @@ def index():
 @blue.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('blue.index'))
+        return redirect(url_for('blue.spell_check'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -59,6 +59,7 @@ def spell_check():
         file = open("input.txt", "w")
         file.write(form.text_to_check.data)
         file.close()
-        sub = subprocess.Popen("./spell_check", "input.txt", "wordlist.txt")
-        output = sub.communicate()
-        return output
+        # sub = subprocess.Popen("./spell_check", "input.txt", "wordlist.txt")
+        # output = sub.communicate()
+
+    return render_template('spell_check.html', title='Spell Check', form=form)

@@ -6,4 +6,4 @@ login = LoginManager()
 def login_initializing(app):
 
     login.init_app(app)
-    login.login_view = 'login'
+    login.login_view = 'blue.login'
