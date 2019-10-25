@@ -33,7 +33,7 @@ def login():
 @blue.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('blue.index'))
+    return redirect(url_for('blue.login'))
 
 
 @blue.route('/register', methods=['GET', 'POST'])
