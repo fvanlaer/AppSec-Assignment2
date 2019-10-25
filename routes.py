@@ -1,14 +1,16 @@
 from flask import render_template, flash, redirect, url_for, Blueprint
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 from models import User
-from forms import LoginForm, RegistrationForm
+from forms import LoginForm, RegistrationForm, SpellCheckForm
 from database import db
+import subprocess
 
 blue = Blueprint('blue', __name__)
 
 
 @blue.route('/')
 @blue.route('/index')
+@login_required
 def index():
     return render_template('index.html')
 
@@ -47,3 +49,16 @@ def register():
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('blue.login'))
     return render_template('register.html', title='Register', form=form)
+
+
+@blue.route('/spell_check', methods=['GET', 'POST'])
+@login_required
+def spell_check():
+    form = SpellCheckForm()
+    if form.validate_on_submit():
+        file = open("input.txt", "w")
+        file.write(form.text_to_check.data)
+        file.close()
+        sub = subprocess.Popen("./spell_check", "input.txt", "wordlist.txt")
+        output = sub.communicate()
+        return output

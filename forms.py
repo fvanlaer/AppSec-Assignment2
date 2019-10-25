@@ -35,3 +35,8 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=phone.data).first()
         if user is not None:
             raise ValidationError('Please use a different phone number.')
+
+
+class SpellCheckForm(FlaskForm):
+    text_to_check = StringField('Text to spell check', validators=[DataRequired()])
+    submit = SubmitField('Submit')
