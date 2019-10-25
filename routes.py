@@ -13,7 +13,7 @@ blue = Blueprint('blue', __name__)
 @blue.route('/index')
 @login_required
 def index():
-    return render_template('index.html')
+    return render_template('index.html', title='AppSec - Assignment 2')
 
 
 @blue.route('/login', methods=['GET', 'POST'])
@@ -24,11 +24,10 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data, form.phone.data):
-            flash('Invalid username, password, or phone number')
-            return redirect(url_for('blue.login'))
+            return render_template('login.html', title='Log In', form=form, connection_status='Incorrect')
         login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('blue.index'))
-    return render_template('login.html', title='Sign In', form=form)
+        return redirect(url_for('blue.spell_check'))
+    return render_template('login.html', title='Log In', form=form, connection_status='Success')
 
 
 @blue.route('/logout')
@@ -47,9 +46,8 @@ def register():
         user.set_password(form.password.data, form.phone.data)
         db.session.add(user)
         db.session.commit()
-        flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('blue.login'))
-    return render_template('register.html', title='Register', form=form)
+        return render_template('register.html', title='Register', form=form, registration_status='Success')
+    return render_template('register.html', title='Register', form=form, registration_status='Failure')
 
 
 @blue.route('/spell_check', methods=['GET', 'POST'])

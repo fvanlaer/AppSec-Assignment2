@@ -1,27 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Sign In</h1>
+    <h1>Log In</h1>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
+        <p id="result">{{ connection_status }}</p>
         <p>
             {{ form.username.label }}<br>
-            {{ form.username(size=32) }}<br>
+            {{ form.username(size=32) }}<br id="uname">
             {% for error in form.username.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>
             {{ form.password.label }}<br>
-            {{ form.password(size=32) }}<br>
+            {{ form.password(size=32) }}<br id="pword">
             {% for error in form.password.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>
             {{ form.phone.label }}<br>
-            {{ form.phone(size=32) }}<br>
-            {% for error in form.password.errors %}
+            {{ form.phone(size=32) }}<br id="2fa">
+            {% for error in form.phone.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>

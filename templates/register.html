@@ -4,9 +4,10 @@
     <h1>Register</h1>
     <form action="" method="post">
         {{ form.hidden_tag() }}
+        <p id="success">{{ registration_status }}</p>
         <p>
             {{ form.username.label }}<br>
-            {{ form.username(size=32) }}<br>
+            {{ form.username(size=32) }}<br id="uname">
             {% for error in form.username.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
@@ -20,7 +21,7 @@
         </p>
         <p>
             {{ form.password.label }}<br>
-            {{ form.password(size=32) }}<br>
+            {{ form.password(size=32) }}<br id="pword">
             {% for error in form.password.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
@@ -34,7 +35,7 @@
         </p>
         <p>
             {{ form.phone.label }}<br>
-            {{ form.phone(size=32) }}<br>
+            {{ form.phone(size=32) }}<br id="2fa">
             {% for error in form.phone.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
