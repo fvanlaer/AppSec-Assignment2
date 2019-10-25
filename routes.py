@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, Blueprint
+from flask import render_template, flash, redirect, url_for, Blueprint, request
 from flask_login import current_user, login_user, logout_user, login_required
 from models import User
 from forms import LoginForm, RegistrationForm, SpellCheckForm
@@ -55,13 +55,13 @@ def register():
 @login_required
 def spell_check():
     form = SpellCheckForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit() and request.method == 'POST':
         file = open("input.txt", "w")
         file.write(form.text_to_check.data)
         file.close()
         command = ["./spell_check", "input.txt", "wordlist.txt"]
-        sub = subprocess.Popen(command)
-        output = sub.communicate()
-        print(output)
-
-    return render_template('spell_check.html', title='Spell Check', form=form)
+        sub = subprocess.Popen(command, stdout=subprocess.PIPE)
+        misspelled = sub.communicate()[0]
+        return render_template('spell_check.html', title='Spell Check', form=form, output=misspelled)
+    else:
+        return render_template('spell_check.html', title='Spell Check', form=form)
