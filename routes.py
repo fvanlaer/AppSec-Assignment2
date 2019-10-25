@@ -59,7 +59,9 @@ def spell_check():
         file = open("input.txt", "w")
         file.write(form.text_to_check.data)
         file.close()
-        # sub = subprocess.Popen("./spell_check", "input.txt", "wordlist.txt")
-        # output = sub.communicate()
+        command = ["./spell_check", "input.txt", "wordlist.txt"]
+        sub = subprocess.Popen(command)
+        output = sub.communicate()
+        print(output)
 
     return render_template('spell_check.html', title='Spell Check', form=form)
