@@ -115,12 +115,12 @@ class MyAppTestCases(unittest.TestCase):
             db.create_all()
             db.session.add(current_user)
             db.session.commit()
+            # Returns True given that second_user.username == current_user.username
             self.assertTrue(User.query.filter_by(username=second_user.username).first())
+            # Returns False given that third_user.username != current_user.username
             self.assertFalse(User.query.filter_by(username=third_user.username).first())
             db.drop_all()
-
-    def test_binary_output(self):
-
+        os.remove("app.db")
 
 
 if __name__ == '__main__':
