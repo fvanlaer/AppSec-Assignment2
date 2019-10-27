@@ -126,7 +126,7 @@ class MyAppTestCases(unittest.TestCase):
     def test_spellcheck_output(self):
         command = ["./spell_check", "test1.txt", "wordlist.txt"]
         sub = subprocess.Popen(command, stdout=subprocess.PIPE)
-        misspelled = sub.communicate()[0].replace("\n", ", ")[:-2]
+        misspelled = sub.communicate()[0].encode("ascii").replace("\n", ", ")[:-2]
         self.assertEqual(misspelled, "sogn, skyn, betta")
 
 
