@@ -1,7 +1,5 @@
 import pytest
-import os
 import app
-import subprocess
 from models import User
 from database import db
 
@@ -95,21 +93,42 @@ def test_login_logout(my_app, init_db):
     password = "masterandcommander"
     phone = "9876543210"
     # We login.
-    attempt1 = my_app.post("/login", data=dict(username=username, password=password, phone=phone), follow_redirects=False)
+    attempt = my_app.post("/login", data=dict(username=username, password=password, phone=phone), follow_redirects=False)
     # "Success" should be printed on the page if login was a success.
-    assert b'Success' in attempt1.data
+    assert b'Success' in attempt.data
     # Verifying there are no other errors
-    assert attempt1.status_code == 200
+    assert attempt.status_code == 200
 
     # We should have access to spell_check now.
-    attempt2 = my_app.get("/spell_check")
+    attempt = my_app.get("/spell_check")
     # Previously, status_code was 302. It should be 200 now.
-    assert attempt2.status_code == 200
+    assert attempt.status_code == 200
 
     # Time to log out
-    attempt3 = my_app.get("/logout")
-    attempt3 = my_app.get("spell_check")
+    attempt = my_app.get("/logout")
+    attempt = my_app.get("spell_check")
     # Now that we are logged out, status_code should be back to 302
-    assert attempt3.status_code == 302
+    assert attempt.status_code == 302
 
 
+def test_full_spellcheck(my_app, init_db):
+    # Using the same credentials created in init_db
+    username = "BOSS"
+    password = "masterandcommander"
+    phone = "9876543210"
+
+    # We have to log in in order to use the spell checker.
+    attempt = my_app.post("/login", data=dict(username=username, password=password, phone=phone), follow_redirects=False)
+    # "Success" should be printed on the page if login was a success.
+    assert b'Success' in attempt.data
+    # Verifying there are no other errors
+    assert attempt.status_code == 200
+
+    text_to_check = "Take a sad sogn and make it better. Remember to let her under your skyn, then you begin to make it betta."
+
+    # Now that we are logged in, we can use the spell checker. We submit our text.
+    attempt = my_app.post("/spell_check", data=dict(text_to_check=text_to_check), follow_redirects=False)
+    # Verifying that the spell checker ran normally.
+    assert b'sogn, skyn, betta' in attempt.data
+    # Verifying there are no other errors
+    assert attempt.status_code == 200
