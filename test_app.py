@@ -67,32 +67,49 @@ def test_password_hash():
 
 
 def test_register(my_app, init_db):
-    username = "subordinate"
-    password = "helloworld"
-    phone = "1234567890"
-    attempt = my_app.post("/register", data=dict(username=username, password=password, phone=phone), follow_redirects=False)
-    assert b'Success' in attempt.data
-    assert attempt.status_code == 200
+    # Creation of a new user
+    username1 = "student"
+    password1 = "helloworld"
+    phone1 = "1234567890"
+    # We register our new user.
+    attempt1 = my_app.post("/register", data=dict(username=username1, password=password1, phone=phone1), follow_redirects=False)
+    # "Success" should be printed on the page if registration was a success.
+    assert b'Success' in attempt1.data
+    # Verifying there are no other errors
+    assert attempt1.status_code == 200
+
+    # Creation of another user
+    username2 = "BOSS"
+    password2 = "trying-hard"
+    phone2 = "5552120000"
+    # This registration should fail given that the username is already used.
+    attempt2 = my_app.post("/register", data=dict(username=username2, password=password2, phone=phone2), follow_redirects=False)
+    assert b'Failure' in attempt2.data
+    # Verifying there are no other errors
+    assert attempt2.status_code == 200
 
 
-# def login(launch_app, username, password, phone):
-#     return launch_app.post("/login", data={"username": username, "password": password, "phone": phone})
-#
-#
-# def logout(launch_app):
-#     return launch_app.get('/logout')
-#
-#
-# def test_register(launch_app):
-#     attempt = launch_app.post("/register", data=dict(username="test", password="test", phone="1234567890"))
-#     print(attempt.data)
-#
-#
-# def test_login_logout(launch_app):
-#     login_attempt = login(launch_app, "test", "test", "1234567890")
-#     print(login_attempt.data)
-#     assert login_attempt.status_code == 200
-#     spellcheck_attempt = launch_app.get("/spell_check")
-#     assert spellcheck_attempt.status_code == 200
-#     logout_attempt = logout(launch_app)
-#     assert logout_attempt.status_code == 302
+def test_login_logout(my_app, init_db):
+    # Using the same credentials created in init_db
+    username = "BOSS"
+    password = "masterandcommander"
+    phone = "9876543210"
+    # We login.
+    attempt1 = my_app.post("/login", data=dict(username=username, password=password, phone=phone), follow_redirects=False)
+    # "Success" should be printed on the page if login was a success.
+    assert b'Success' in attempt1.data
+    # Verifying there are no other errors
+    assert attempt1.status_code == 200
+
+    # We should have access to spell_check now.
+    attempt2 = my_app.get("/spell_check")
+    # Previously, status_code was 302. It should be 200 now.
+    assert attempt2.status_code == 200
+
+    # Time to log out
+    attempt3 = my_app.get("/logout")
+    attempt3 = my_app.get("spell_check")
+    # Now that we are logged out, status_code should be back to 302
+    assert attempt3.status_code == 302
+
+

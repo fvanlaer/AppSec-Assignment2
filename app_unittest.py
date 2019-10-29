@@ -19,9 +19,13 @@ class MyAppTestCases(unittest.TestCase):
         login_page = self.my_app.get("/login")
         register_page = self.my_app.get("/register")
         spellcheck_page = self.my_app.get("/spell_check")
+        # Index page redirects to login page --> code = 302 (redirect)
         self.assertEqual(index_page.status_code, 302)
+        # Login should be accessible to anybody --> code = 200
         self.assertEqual(login_page.status_code, 200)
+        # Register should be accessible to anybody --> code = 200
         self.assertEqual(register_page.status_code, 200)
+        # Spellcheck should NOT be accessible to unlogged users --> code = 302 (redirect)
         self.assertEqual(spellcheck_page.status_code, 302)
 
     def test_password_hash(self):
