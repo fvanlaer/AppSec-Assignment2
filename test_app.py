@@ -70,7 +70,7 @@ def test_register(my_app, init_db):
     password1 = "helloworld"
     phone1 = "1234567890"
     # We register our new user.
-    attempt1 = my_app.post("/register", data=dict(username=username1, password=password1, phone=phone1), follow_redirects=False)
+    attempt1 = my_app.post("/register", data=dict(username=username1, password=password1, phone=phone1))
     # "Success" should be printed on the page if registration was a success.
     assert b'Success' in attempt1.data
     # Verifying there are no other errors
@@ -81,7 +81,7 @@ def test_register(my_app, init_db):
     password2 = "trying-hard"
     phone2 = "5552120000"
     # This registration should fail given that the username is already used.
-    attempt2 = my_app.post("/register", data=dict(username=username2, password=password2, phone=phone2), follow_redirects=False)
+    attempt2 = my_app.post("/register", data=dict(username=username2, password=password2, phone=phone2))
     assert b'Failure' in attempt2.data
     # Verifying there are no other errors
     assert attempt2.status_code == 200
@@ -93,7 +93,7 @@ def test_login_logout(my_app, init_db):
     password = "masterandcommander"
     phone = "9876543210"
     # We login.
-    attempt = my_app.post("/login", data=dict(username=username, password=password, phone=phone), follow_redirects=False)
+    attempt = my_app.post("/login", data=dict(username=username, password=password, phone=phone))
     # "Success" should be printed on the page if login was a success.
     assert b'Success' in attempt.data
     # Verifying there are no other errors
@@ -118,7 +118,7 @@ def test_full_spellcheck(my_app, init_db):
     phone = "9876543210"
 
     # We have to log in in order to use the spell checker.
-    attempt = my_app.post("/login", data=dict(username=username, password=password, phone=phone), follow_redirects=False)
+    attempt = my_app.post("/login", data=dict(username=username, password=password, phone=phone))
     # "Success" should be printed on the page if login was a success.
     assert b'Success' in attempt.data
     # Verifying there are no other errors
@@ -127,7 +127,7 @@ def test_full_spellcheck(my_app, init_db):
     text_to_check = "Take a sad sogn and make it better. Remember to let her under your skyn, then you begin to make it betta."
 
     # Now that we are logged in, we can use the spell checker. We submit our text.
-    attempt = my_app.post("/spell_check", data=dict(text_to_check=text_to_check), follow_redirects=False)
+    attempt = my_app.post("/spell_check", data=dict(text_to_check=text_to_check))
     # Verifying that the spell checker ran normally.
     assert b'sogn, skyn, betta' in attempt.data
     # Verifying there are no other errors
