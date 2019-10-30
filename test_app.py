@@ -132,3 +132,9 @@ def test_full_spellcheck(my_app, init_db):
     assert b'sogn, skyn, betta' in attempt.data
     # Verifying there are no other errors
     assert attempt.status_code == 200
+
+    # Time to log out
+    attempt = my_app.get("/logout")
+    attempt = my_app.get("spell_check")
+    # Now that we are logged out, status_code should be back to 302
+    assert attempt.status_code == 302
