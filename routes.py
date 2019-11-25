@@ -124,9 +124,8 @@ def history_query(query_id):
 @blue.route('/login_history', methods=['GET', 'POST'])
 @login_required
 def login_history():
-    user = User.query.filter_by(username=current_user.username).first()
-    form = LogsForm()
-    if user.username == 'admin':
+    if current_user.username == 'admin':
+        form = LogsForm()
         if form.validate_on_submit() and request.method == 'POST':
             requested_user = User.query.filter_by(username=form.username.data).first()
             logs_history = requested_user.activities.all()
