@@ -17,7 +17,7 @@
     <hr>
     {% for activity in activities %}
         <p id="login{{ activity.id }}_time">Login: {{ activity.log_in }}</p>
-        {% if activity.log_out is None %}
+        {% if activity.log_out == None %}
             <p id="logout{{ activity.id }}_time">Logout: N/A</p>
         {% else %}
             <p id="logout{{ activity.id }}_time">Logout: {{ activity.log_out }}</p>
