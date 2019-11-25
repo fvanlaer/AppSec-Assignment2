@@ -6,6 +6,7 @@ A Web Application: A Spell Checker for registered users
 ## Assignment 3
 
 Added a database to the Web Application
+
 The database includes user info, text submission history, and user logs.
 
 ## Build Status

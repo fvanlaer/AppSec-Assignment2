@@ -5,6 +5,7 @@ from forms import LoginForm, RegistrationForm, SpellCheckForm
 from database import db
 import subprocess
 import os
+import re
 
 blue = Blueprint('blue', __name__)
 
@@ -84,3 +85,16 @@ def history():
     user = User.query.filter_by(username=current_user.username).first()
     text_history = user.texts.all()
     return render_template('history.html', title='History', total_queries=len(text_history), user=user, texts=text_history)
+
+
+@blue.route('/history/<query_id>', methods=['GET'])
+@login_required
+def history_query(query_id):
+    user = User.query.filter_by(username=current_user.username).first()
+    current_text_id = re.findall('\d+', query_id)
+    current_text = Text.query.filter_by(id=current_text_id[0], user_id=user.id).first()
+
+    if current_text is None:
+        return render_template('history.html', title='History')
+    else:
+        return render_template('query.html', title='Query', user=user, text=current_text)
