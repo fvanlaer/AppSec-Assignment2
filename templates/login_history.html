@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+{% if user is defined %}
 <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>
@@ -13,7 +13,6 @@
         </p>
         <p>{{ form.submit() }}</p>
     </form>
- {% if user is defined %}
     <h1>User: {{ user.username }}</h1>
     <hr>
     {% for activity in activities %}
@@ -24,5 +23,5 @@
             <p id="logout{{ activity.id }}_time">Logout: N/A</p>
         {% endif %}
     {% endfor %}
-    {% endif %}
+{% endif %}
 {% endblock %}
