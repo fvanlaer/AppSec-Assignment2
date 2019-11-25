@@ -83,8 +83,8 @@ def spell_check():
 @login_required
 def history():
     user = User.query.filter_by(username=current_user.username).first()
+    form = HistoryForm()
     if user.username == 'admin':
-        form = HistoryForm()
         if form.validate_on_submit() and request.method == 'POST':
             requested_user = User.query.filter_by(username=form.username.data).first()
             text_history = requested_user.texts.all()
@@ -93,7 +93,7 @@ def history():
             return render_template('history.html', title='History', form=form)
     else:
         text_history = user.texts.all()
-        return render_template('history.html', title='History', total_queries=len(text_history), user=user, texts=text_history)
+        return render_template('history.html', title='History', form=form, total_queries=len(text_history), user=user, texts=text_history)
 
 
 @blue.route('/history/<query_id>', methods=['GET'])
