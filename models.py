@@ -43,7 +43,7 @@ class Activity(db.Model):
 
     # Log In / Log Out properties
     id = db.Column(db.Integer, primary_key=True)
-    log_in = db.Column(db.DateTime, default=datetime.utcnow)
+    log_in = db.Column(db.DateTime, default=datetime.utcnow())
     log_out = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 

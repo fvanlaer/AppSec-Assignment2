@@ -39,7 +39,7 @@ def login():
 def logout():
     user = User.query.filter_by(username=current_user.username).first()
     activity = Activity.query.filter_by(user_id=user.id).order_by(Activity.id.desc()).first()
-    activity.log_out = datetime.utcnow
+    activity.log_out = datetime.utcnow()
     db.session.commit()
     logout_user()
     return redirect(url_for('blue.login'))
@@ -124,7 +124,8 @@ def history_query(query_id):
 @blue.route('/login_history', methods=['GET', 'POST'])
 @login_required
 def login_history():
-    if current_user.username == 'admin':
+    user = User.query.filter_by(username=current_user.username).first()
+    if user.username == 'admin':
         form = LogsForm()
         if form.validate_on_submit() and request.method == 'POST':
             requested_user = User.query.filter_by(username=form.username.data).first()
