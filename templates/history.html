@@ -6,8 +6,7 @@
     <p id="numqueries"> {{ total_queries }}</p>
     {% for text in texts %}
     <p id="query{{ text.id }}">
-        {{ text.author.username }} submitted: <b>{{ text.before_spellcheck }}</b>
-        Misspelled words: <b>{{ text.after_spellcheck }}</b>
+        <a href="/history/query{{ text.id }}">Query {{ text.id }}</a>
     </p>
     {% endfor %}
 {% endblock %}
