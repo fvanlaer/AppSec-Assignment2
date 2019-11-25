@@ -70,7 +70,7 @@ def spell_check():
         # Requirements for assignment 3
         # Adding submitted text to database
         user = User.query.filter_by(username=current_user.username).first()
-        text = Text(before_spellcheck=supplied_text, after_Spellcheck=misspelled, user_id=user.id)
+        text = Text(before_spellcheck=supplied_text, after_spellcheck=misspelled, user_id=user.id)
         db.session.add(text)
         db.session.commit()
         return render_template('spell_check.html', title='Spell Check', form=form, input=supplied_text, output=misspelled)
