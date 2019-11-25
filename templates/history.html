@@ -6,7 +6,9 @@
     {% for text in texts %}
     <p>
         {{ text.author.username }} submitted: <b>{{ text.before_spellcheck }}</b>
-        After using the spell checker: <b>{{ text.after_spellcheck }}</b>
+    </p>
+    <p>
+        Misspelled words: <b>{{ text.after_spellcheck }}</b>
     </p>
     {% endfor %}
 {% endblock %}
