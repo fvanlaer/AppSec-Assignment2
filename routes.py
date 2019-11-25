@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, Blueprint, request
 from flask_login import current_user, login_user, logout_user, login_required
 from models import User, Text
-from forms import LoginForm, RegistrationForm, SpellCheckForm
+from forms import LoginForm, RegistrationForm, SpellCheckForm, HistoryForm
 from database import db
 import subprocess
 import os
@@ -79,12 +79,21 @@ def spell_check():
         return render_template('spell_check.html', title='Spell Check', form=form)
 
 
-@blue.route('/history', methods=['GET'])
+@blue.route('/history', methods=['GET', 'POST'])
 @login_required
 def history():
     user = User.query.filter_by(username=current_user.username).first()
-    text_history = user.texts.all()
-    return render_template('history.html', title='History', total_queries=len(text_history), user=user, texts=text_history)
+    if user.username == 'admin':
+        form = HistoryForm()
+        if form.validate_on_submit() and request.method == 'POST':
+            requested_user = User.query.filter_by(username=form.username.data).first()
+            text_history = requested_user.texts.all()
+            return render_template('history.html', title='History', form=form, total_queries=len(text_history), user=requested_user, texts=text_history)
+        else:
+            return render_template('history.html', title='History', form=form)
+    else:
+        text_history = user.texts.all()
+        return render_template('history.html', title='History', total_queries=len(text_history), user=user, texts=text_history)
 
 
 @blue.route('/history/<query_id>', methods=['GET'])
@@ -92,7 +101,10 @@ def history():
 def history_query(query_id):
     user = User.query.filter_by(username=current_user.username).first()
     current_text_id = re.findall('\d+', query_id)
-    current_text = Text.query.filter_by(id=current_text_id[0], user_id=user.id).first()
+    if user.username == 'admin':
+        current_text = Text.query.filter_by(id=current_text_id[0]).first()
+    else:
+        current_text = Text.query.filter_by(id=current_text_id[0], user_id=user.id).first()
 
     if current_text is None:
         text_history = user.texts.all()
