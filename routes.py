@@ -132,6 +132,6 @@ def login_history():
             logs_history = requested_user.activities.all()
             return render_template('login_history.html', title='Login History', form=form, user=requested_user, activities=logs_history)
         else:
-            return render_template('login_history', title='Login History', form=form)
+            return render_template('login_history.html', title='Login History', form=form)
     else:
         return render_template('index.html', title='AppSec - Assignments 2 and 3')
