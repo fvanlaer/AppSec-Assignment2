@@ -83,4 +83,4 @@ def spell_check():
 def history():
     user = User.query.filter_by(username=current_user.username).first()
     text_history = user.texts.all()
-    return render_template('history.html', title='History', user=user, texts=text_history)
+    return render_template('history.html', title='History', total_queries=len(text_history), user=user, texts=text_history)
