@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+    {% if user is defined %}
     <h1>User: {{ user.username }}</h1>
     <hr>
     <p id="numqueries"> Total number of queries: {{ total_queries }}</p>
@@ -9,6 +10,7 @@
         <a id="query{{ text.id }}" href="/history/query{{ text.id }}">Query {{ text.id }}</a>
     </p>
     {% endfor %}
+    {% endif %}
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>
