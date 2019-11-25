@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p id="queryid">Query Number: {{ text.id }}</p>
-    <p id="username">Username: {{ text.author.username }}</p>
-    <p id="querytext">Submitted text: {{ text.before_spellcheck }}</p>
-    <p id="queryresults">Results: {{ text.after_spellcheck }}</p>
+    <p id="queryid"><b>Query Number:</b> {{ text.id }}</p>
+    <p id="username"><b>Username:</b> {{ text.author.username }}</p>
+    <p id="querytext"><b>Submitted text:</b> {{ text.before_spellcheck }}</p>
+    <p id="queryresults"><b>Results:</b> {{ text.after_spellcheck }}</p>
 {% endblock %}
