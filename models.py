@@ -2,6 +2,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from database import db
 from loginman import login
+from datetime import datetime
 
 
 class User(UserMixin, db.Model):
@@ -14,6 +15,7 @@ class User(UserMixin, db.Model):
 
     # We need to "link" user to their text submission(s)
     texts = db.relationship('Text', backref='author', lazy='dynamic')
+    activities = db.relationship('Activity', backref='logger', lazy='dynamic')
 
     def set_password(self, password, phone):
         self.password_hash = generate_password_hash(password + phone)
@@ -36,6 +38,14 @@ class Text(db.Model):
     def __repr__(self):
         return '<Text {}>'.format(self.before_spellcheck)
 
+
+class Activity(db.Model):
+
+    # Log In / Log Out properties
+    id = db.Column(db.Integer, primary_key=True)
+    log_in = db.Column(db.DateTime, default=datetime.utcnow)
+    log_out = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 # Loading user from database
 @login.user_loader

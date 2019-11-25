@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}<br>
+            {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+ {% if user is defined %}
+    <h1>User: {{ user.username }}</h1>
+    <hr>
+    {% for activity in activities %}
+        <p id="login{{ activity.id }}_time">Login: {{ activity.login }}</p>
+        {% if activity.logout is defined %}
+            <p id="logout{{ activity.id }}_time">Logout: {{ activity.logout }}</p>
+        {% else %}
+            <p id="logout{{ activity.id }}_time">Logout: N/A</p>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+{% endblock %}

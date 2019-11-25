@@ -1,11 +1,12 @@
 from flask import render_template, redirect, url_for, Blueprint, request
 from flask_login import current_user, login_user, logout_user, login_required
-from models import User, Text
-from forms import LoginForm, RegistrationForm, SpellCheckForm, HistoryForm
+from models import User, Text, Activity
+from forms import LoginForm, RegistrationForm, SpellCheckForm, HistoryForm, LogsForm
 from database import db
 import subprocess
 import os
 import re
+from datetime import datetime
 
 blue = Blueprint('blue', __name__)
 
@@ -14,7 +15,7 @@ blue = Blueprint('blue', __name__)
 @blue.route('/index')
 @login_required
 def index():
-    return render_template('index.html', title='AppSec - Assignment 2 and 3')
+    return render_template('index.html', title='AppSec - Assignments 2 and 3')
 
 
 @blue.route('/login', methods=['GET', 'POST'])
@@ -27,12 +28,19 @@ def login():
         if user is None or not user.check_password(form.password.data, form.phone.data):
             return render_template('login.html', title='Log In', form=form, connection_status='Incorrect')
         login_user(user, remember=form.remember_me.data)
+        activity = Activity(user_id=user.id)
+        db.session.add(activity)
+        db.session.commit()
         return render_template('login.html', title='Log In', form=form, connection_status='Success')
     return render_template('login.html', title='Log In', form=form)
 
 
 @blue.route('/logout')
 def logout():
+    user = User.query.filter_by(username=current_user.username).first()
+    activity = Activity.query.filterby(user_id=user.id).last()
+    activity.log_out = datetime.utcnow
+    db.session.commit()
     logout_user()
     return redirect(url_for('blue.login'))
 
@@ -111,3 +119,18 @@ def history_query(query_id):
         return render_template('history.html', title='History', total_queries=len(text_history), user=user, texts=text_history)
     else:
         return render_template('query.html', title='Query', user=user, text=current_text)
+
+
+@blue.route('/login_history', methods=['GET', 'POST'])
+@login_required
+def login_history():
+    if current_user.username == 'admin':
+        form = LogsForm()
+        if form.validate_on_submit() and request.method == 'POST':
+            requested_user = User.query.filter_by(username=form.username.data).first()
+            logs_history = requested_user.activities.all()
+            return render_template('login_history.html', title='Login History', form=form, user=requested_user, activities=logs_history)
+        else:
+            return render_template('login_history', title='Login History', form=form)
+    else:
+        return render_template('index.html', title='AppSec - Assignments 2 and 3')
