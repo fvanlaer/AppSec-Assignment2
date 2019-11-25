@@ -31,3 +31,7 @@ class RegistrationForm(FlaskForm):
 class SpellCheckForm(FlaskForm):
     text_to_check = StringField('Text to spell check', id="inputtext", validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+
+class HistoryForm(FlaskForm):
+    submit = SubmitField('Submit')
