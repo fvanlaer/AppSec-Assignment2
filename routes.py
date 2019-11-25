@@ -38,7 +38,7 @@ def login():
 @blue.route('/logout')
 def logout():
     user = User.query.filter_by(username=current_user.username).first()
-    activity = Activity.query.filter_by(user_id=user.id).last()
+    activity = Activity.query.filter_by(user_id=user.id).order_by(Activity.id.desc()).first()
     activity.log_out = datetime.utcnow
     db.session.commit()
     logout_user()
