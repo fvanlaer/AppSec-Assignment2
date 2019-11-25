@@ -16,9 +16,9 @@
     <h1>User: {{ user.username }}</h1>
     <hr>
     {% for activity in activities %}
-        <p id="login{{ activity.id }}_time">Login: {{ activity.login }}</p>
-        {% if activity.logout is defined %}
-            <p id="logout{{ activity.id }}_time">Logout: {{ activity.logout }}</p>
+        <p id="login{{ activity.id }}_time">Login: {{ activity.log_in }}</p>
+        {% if activity.log_out is defined %}
+            <p id="logout{{ activity.id }}_time">Logout: {{ activity.log_out }}</p>
         {% else %}
             <p id="logout{{ activity.id }}_time">Logout: N/A</p>
         {% endif %}
