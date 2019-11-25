@@ -3,10 +3,10 @@
 {% block content %}
     <h1>User: {{ user.username }}</h1>
     <hr>
-    <p id="numqueries"> {{ total_queries }}</p>
+    <p id="numqueries"> Total number of queries: {{ total_queries }}</p>
     {% for text in texts %}
-    <p id="query{{ text.id }}">
-        <a href="/history/query{{ text.id }}">Query {{ text.id }}</a>
+    <p>
+        <a id="query{{ text.id }}" href="/history/query{{ text.id }}">Query {{ text.id }}</a>
     </p>
     {% endfor %}
 {% endblock %}
