@@ -220,12 +220,12 @@ def test_record_history(my_app, init_db):
     # Verifying there are no other errors
     assert attempt.status_code == 200
 
-    # attempt = my_app.get("/history")
-    # # Verifying that there is only one query
-    # assert b'Total number of queries: 1' in attempt.data
-    # # Verifying there are no other errors
-    # assert attempt.status_code == 200
-    #
+    attempt = my_app.get("/history")
+    # Verifying that there is only one query
+    assert b'Total number of queries: 1' in attempt.data
+    # Verifying there are no other errors
+    assert attempt.status_code == 200
+
     # attempt = my_app.get("/history/query2")
     # # We should find the same data as we did with the spell checker
     # assert b'asssignment' in attempt.data
