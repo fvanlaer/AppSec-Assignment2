@@ -115,8 +115,6 @@ def history_query(query_id):
         current_text = Text.query.filter_by(id=current_text_id[0], user_id=user.id).first()
 
     if current_text is None:
-        # text_history = user.texts.all()
-        # return render_template('history.html', title='History', total_queries=len(text_history), user=user, texts=text_history)
         return redirect(url_for('blue.history'))
     else:
         return render_template('query.html', title='Query', user=user, text=current_text)

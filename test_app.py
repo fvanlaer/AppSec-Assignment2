@@ -237,22 +237,22 @@ def test_record_history(my_app, init_db):
     # Therefore, the user should be redirected to their own "/history"
     assert attempt.status_code == 302
 
-    # # Time to log out
-    # attempt = my_app.get("/logout")
-    # attempt = my_app.get("spell_check")
-    # # Now that we are logged out, status_code should be back to 302
-    # assert attempt.status_code == 302
-    #
-    # # Now we log in with our admin user
-    # username = "admin"
-    # password = "Administrator@1"
-    # phone = "12345678901"
-    # attempt = my_app.post("/login", data=dict(username=username, password=password, phone=phone))
-    # # "Success" should be printed on the page if login was a success.
-    # assert b'Success' in attempt.data
-    # # Verifying there are no other errors
-    # assert attempt.status_code == 200
-    #
+    # Time to log out
+    attempt = my_app.get("/logout")
+    attempt = my_app.get("spell_check")
+    # Now that we are logged out, status_code should be back to 302
+    assert attempt.status_code == 302
+
+    # Now we log in with our admin user
+    username = "admin"
+    password = "Administrator@1"
+    phone = "12345678901"
+    attempt = my_app.post("/login", data=dict(username=username, password=password, phone=phone))
+    # "Success" should be printed on the page if login was a success.
+    assert b'Success' in attempt.data
+    # Verifying there are no other errors
+    assert attempt.status_code == 200
+
     # # Now that we are logged in, we can use the history form.
     # attempt = my_app.post("/history", data=dict(username="testUser1"))
     # # We should find the query of testUser1
