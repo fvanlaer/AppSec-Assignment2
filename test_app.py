@@ -193,17 +193,17 @@ def test_record_history(my_app, init_db):
     # Now that we are logged out, status_code should be back to 302
     assert attempt.status_code == 302
 
-    # # Creating a new user
-    # username = "testUser2"
-    # password = "testUser2"
-    # phone = "54321"
-    # # We register our second test user
-    # attempt = my_app.post("/register", data=dict(username=username, password=password, phone=phone))
-    # # "Success" should be printed on the page if registration was a success.
-    # assert b'Success' in attempt.data
-    # # Verifying there are no other errors
-    # assert attempt.status_code == 200
-    #
+    # Creating a new user
+    username = "testUser2"
+    password = "testUser2"
+    phone = "54321"
+    # We register our second test user
+    attempt = my_app.post("/register", data=dict(username=username, password=password, phone=phone))
+    # "Success" should be printed on the page if registration was a success.
+    assert b'Success' in attempt.data
+    # Verifying there are no other errors
+    assert attempt.status_code == 200
+
     # # Now time to log in
     # attempt = my_app.post("/login", data=dict(username=username, password=password, phone=phone))
     # # "Success" should be printed on the page if login was a success.
