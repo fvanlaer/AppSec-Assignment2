@@ -24,11 +24,16 @@ def my_app():
 def init_db():
     db.create_all()
 
-    admin = User(username='BOSS', phone='9876543210')
-    admin.set_password('masterandcommander', '9876543210')
+    # Admin user initially created for Assignment 2
+    admin_assignment2 = User(username='BOSS', phone='9876543210')
+    admin_assignment2.set_password('masterandcommander', '9876543210')
 
-    db.session.add(admin)
+    db.session.add(admin_assignment2)
     db.session.commit()
+
+    # Admin user created for assignment 3
+    admin_assignment3 = User(username='admin', phone='12345678901')
+    admin_assignment3.set_password('Administrator@1', '12345678901')
 
     yield db
 
@@ -129,6 +134,52 @@ def test_full_spellcheck(my_app, init_db):
     # Now that we are logged in, we can use the spell checker. We submit our text.
     attempt = my_app.post("/spell_check", data=dict(text_to_check=text_to_check))
     # Verifying that the spell checker ran normally.
+    assert b'sogn, skyn, betta' in attempt.data
+    # Verifying there are no other errors
+    assert attempt.status_code == 200
+
+    # Time to log out
+    attempt = my_app.get("/logout")
+    attempt = my_app.get("spell_check")
+    # Now that we are logged out, status_code should be back to 302
+    assert attempt.status_code == 302
+
+
+def test_record_history(my_app, init_db):
+    username = "testUser1"
+    password = "testUser1"
+    phone = "12345"
+    # We register our new test user
+    attempt = my_app.post("/register", data=dict(username=username, password=password, phone=phone))
+    # "Success" should be printed on the page if registration was a success.
+    assert b'Success' in attempt.data
+    # Verifying there are no other errors
+    assert attempt.status_code == 200
+
+    # Now time to log in
+    attempt = my_app.post("/login", data=dict(username=username, password=password, phone=phone))
+    # "Success" should be printed on the page if login was a success.
+    assert b'Success' in attempt.data
+    # Verifying there are no other errors
+    assert attempt.status_code == 200
+
+    text_to_check = "Take a sad sogn and make it better. Remember to let her under your skyn, then you begin to make it betta."
+
+    # Now that we are logged in, we can use the spell checker. We submit our text.
+    attempt = my_app.post("/spell_check", data=dict(text_to_check=text_to_check))
+    # Verifying that the spell checker ran normally.
+    assert b'sogn, skyn, betta' in attempt.data
+    # Verifying there are no other errors
+    assert attempt.status_code == 200
+
+    attempt = my_app.get("/history")
+    # Verifying that there is only one query
+    assert b'Total number of queries: 1' in attempt.data
+    # Verifying there are no other errors
+    assert attempt.status_code == 200
+
+    attempt = my_app.get("/history/query1")
+    # We should find the same data as we did with the spell checker
     assert b'sogn, skyn, betta' in attempt.data
     # Verifying there are no other errors
     assert attempt.status_code == 200
