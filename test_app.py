@@ -232,10 +232,11 @@ def test_record_history(my_app, init_db):
     # Verifying there are no other errors
     assert attempt.status_code == 200
 
-    # attempt = my_app.get("history/query1")
-    # # testUser2 should NOT have access to that particular page given this is not their query
-    # assert attempt.status_code == 500
-    #
+    attempt = my_app.get("history/query1")
+    # testUser2 should NOT have access to that particular page given this is not their query
+    # Therefore, the user should be redirected to their own "/history"
+    assert attempt.status_code == 302
+
     # # Time to log out
     # attempt = my_app.get("/logout")
     # attempt = my_app.get("spell_check")
