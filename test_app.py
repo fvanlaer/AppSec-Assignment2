@@ -204,13 +204,13 @@ def test_record_history(my_app, init_db):
     # Verifying there are no other errors
     assert attempt.status_code == 200
 
-    # # Now time to log in
-    # attempt = my_app.post("/login", data=dict(username=username, password=password, phone=phone))
-    # # "Success" should be printed on the page if login was a success.
-    # assert b'Success' in attempt.data
-    # # Verifying there are no other errors
-    # assert attempt.status_code == 200
-    #
+    # Now time to log in
+    attempt = my_app.post("/login", data=dict(username=username, password=password, phone=phone))
+    # "Success" should be printed on the page if login was a success.
+    assert b'Success' in attempt.data
+    # Verifying there are no other errors
+    assert attempt.status_code == 200
+
     # text_to_check2 = "hello new asssignment"
     #
     # # Now that we are logged in, we can use the spell checker. We submit our text.
