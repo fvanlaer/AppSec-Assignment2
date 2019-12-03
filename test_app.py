@@ -226,12 +226,12 @@ def test_record_history(my_app, init_db):
     # Verifying there are no other errors
     assert attempt.status_code == 200
 
-    # attempt = my_app.get("/history/query2")
-    # # We should find the same data as we did with the spell checker
-    # assert b'asssignment' in attempt.data
-    # # Verifying there are no other errors
-    # assert attempt.status_code == 200
-    #
+    attempt = my_app.get("/history/query2")
+    # We should find the same data as we did with the spell checker
+    assert b'asssignment, securiti' in attempt.data
+    # Verifying there are no other errors
+    assert attempt.status_code == 200
+
     # attempt = my_app.get("history/query1")
     # # testUser2 should NOT have access to that particular page given this is not their query
     # assert attempt.status_code == 500
