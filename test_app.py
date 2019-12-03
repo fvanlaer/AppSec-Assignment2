@@ -114,7 +114,7 @@ def test_login_logout(my_app, init_db):
 
     # Time to log out
     attempt = my_app.get("/logout")
-    attempt = my_app.get("spell_check")
+    attempt = my_app.get("/spell_check")
     # Now that we are logged out, status_code should be back to 302
     assert attempt.status_code == 302
 
@@ -143,7 +143,7 @@ def test_full_spellcheck(my_app, init_db):
 
     # Time to log out
     attempt = my_app.get("/logout")
-    attempt = my_app.get("spell_check")
+    attempt = my_app.get("/spell_check")
     # Now that we are logged out, status_code should be back to 302.
     assert attempt.status_code == 302
 
@@ -189,7 +189,7 @@ def test_record_history(my_app, init_db):
 
     # Time to log out
     attempt = my_app.get("/logout")
-    attempt = my_app.get("spell_check")
+    attempt = my_app.get("/spell_check")
     # Now that we are logged out, status_code should be back to 302.
     assert attempt.status_code == 302
 
@@ -211,7 +211,7 @@ def test_record_history(my_app, init_db):
     # Verifying there are no other errors
     assert attempt.status_code == 200
 
-    text_to_check2 = "hello new amazing asssignment regarding securiti"
+    text_to_check2 = "hello! new amazing asssignment regarding application securiti"
 
     # Now that we are logged in, we can use the spell checker. We submit our text.
     attempt = my_app.post("/spell_check", data=dict(text_to_check=text_to_check2))
@@ -232,14 +232,14 @@ def test_record_history(my_app, init_db):
     # Verifying there are no other errors
     assert attempt.status_code == 200
 
-    attempt = my_app.get("history/query1")
+    attempt = my_app.get("/history/query1")
     # testUser2 should NOT have access to that particular page given this is not their query.
     # Therefore, the user should be redirected to their own "/history".
     assert attempt.status_code == 302
 
     # Time to log out
     attempt = my_app.get("/logout")
-    attempt = my_app.get("spell_check")
+    attempt = my_app.get("/spell_check")
     # Now that we are logged out, status_code should be back to 302.
     assert attempt.status_code == 302
 
@@ -257,19 +257,19 @@ def test_record_history(my_app, init_db):
     # Admin should have access to both queries.
     attempt = my_app.post("/history", data=dict(username="testUser1"))
     # We should find the query of testUser1.
-    attempt = my_app.get("history/query1")
+    attempt = my_app.get("/history/query1")
     assert b'sogn, skyn, betta' in attempt.data
     # Verifying there are no other errors
     assert attempt.status_code == 200
     attempt = my_app.post("/history", data=dict(username="testUser2"))
     # We should find the query of testUser2.
-    attempt = my_app.get("history/query2")
+    attempt = my_app.get("/history/query2")
     assert b'asssignment, securiti' in attempt.data
     # Verifying there are no other errors
     assert attempt.status_code == 200
 
     # Finally, we log out.
     attempt = my_app.get("/logout")
-    attempt = my_app.get("spell_check")
+    attempt = my_app.get("/spell_check")
     # Now that we are logged out, status_code should be back to 302.
     assert attempt.status_code == 302
