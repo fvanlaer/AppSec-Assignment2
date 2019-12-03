@@ -189,4 +189,3 @@ def test_record_history(my_app, init_db):
     attempt = my_app.get("spell_check")
     # Now that we are logged out, status_code should be back to 302
     assert attempt.status_code == 302
-
