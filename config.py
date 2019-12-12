@@ -6,7 +6,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config(object):
 
     # SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
-    SECRET_KEY = get_docker_secret('SECRET_KEY', default='donotknow')
+    SECRET_KEY = open("/run/secrets/SECRET_KEY", "r").read().strip()
     print(SECRET_KEY)
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
