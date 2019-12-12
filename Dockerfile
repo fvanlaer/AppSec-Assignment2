@@ -1,11 +1,16 @@
-FROM python:3.6-alpine
+FROM ubuntu:latest
 
-WORKDIR /Desktop/Assignment3/AppSec-Assignment2
+RUN apt-get update -y
+RUN apt-get install python3.6
 
-COPY requirements.txt requirements.txt
+COPY ./requirements.txt /app/requirements.txt
+
+WORKDIR /app
+
 RUN pip install -r requirements.txt
 
-COPY app.py config.py database.py forms.py loginman.py models.py routes.py ./
+COPY . /app
 
 EXPOSE 8080
-ENTRYPOINT ["python", "app.py"]
+
+ENTRYPOINT ["python3", "app.py"]
