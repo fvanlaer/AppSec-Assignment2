@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 RUN apt-get update -y
-RUN apt-get install python3.6
+RUN apt-get install python3.6 -y
 
 COPY ./requirements.txt /app/requirements.txt
 
