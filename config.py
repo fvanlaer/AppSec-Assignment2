@@ -7,6 +7,7 @@ class Config(object):
 
     # SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
     SECRET_KEY = get_docker_secret('SECRET_KEY', default='donotknow')
+    print(SECRET_KEY)
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
