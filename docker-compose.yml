@@ -1,7 +1,12 @@
-version: "3"
+version: "3.1"
 services:
   appsec:
     restart: "no"
     build: .
     ports:
       - 8080:5000
+    secrets:
+      - SECRET_KEY
+secrets:
+  SECRET_KEY:
+    file: SECRET_KEY.txt

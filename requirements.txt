@@ -5,3 +5,4 @@ flask-login
 tox
 tox-travis
 pytest
+get-docker-secret
