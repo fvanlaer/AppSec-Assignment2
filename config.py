@@ -7,7 +7,7 @@ class Config(object):
     # SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
     try:
         SECRET_KEY = open("/run/secrets/SECRET_KEY", "r").read().strip()
-    except NotADirectoryError:
+    except Exception:
         SECRET_KEY = 'donotknow'
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
