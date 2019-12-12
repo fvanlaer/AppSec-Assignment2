@@ -7,6 +7,12 @@ services:
       - 8080:5000
     secrets:
       - SECRET_KEY
+      - master_password
+      - master_phone
 secrets:
   SECRET_KEY:
     file: ./SECRET_KEY.txt
+  master_password:
+    file: ./master_password.txt
+  master_phone:
+    file: ./master_phone.txt
