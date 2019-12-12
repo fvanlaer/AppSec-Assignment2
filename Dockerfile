@@ -1,8 +1,8 @@
-FROM ubuntu:latest
+FROM python:3.6-alpine
 
-RUN apt-get update -y
-RUN apt-get install -y python3.6
-RUN apt-get install -y python-pip python-dev
+#RUN apt-get update -y
+#RUN apt-get install -y python3.6
+#RUN apt-get install -y python-pip python-dev
 
 COPY ./requirements.txt /app/requirements.txt
 
@@ -14,4 +14,4 @@ COPY . /app
 
 EXPOSE 8080
 
-ENTRYPOINT ["python3", "app.py"]
+ENTRYPOINT ["python", "app.py"]
