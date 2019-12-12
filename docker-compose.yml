@@ -9,4 +9,4 @@ services:
       - SECRET_KEY
 secrets:
   SECRET_KEY:
-    file: SECRET_KEY.txt
+    file: ./SECRET_KEY.txt
