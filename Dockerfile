@@ -1,5 +1,7 @@
 FROM python:3.6-alpine
 
+WORKDIR /Desktop/Assignment3/AppSec-Assignment2
+
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
