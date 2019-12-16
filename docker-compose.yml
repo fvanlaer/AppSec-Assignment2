@@ -2,6 +2,7 @@ version: "3.1"
 services:
   appsec:
     restart: "no"
+    image: appsec-assignment2_appsec:latest
     build: .
     ports:
       - 8080:5000
