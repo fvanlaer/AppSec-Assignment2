@@ -10,6 +10,15 @@ services:
       - SECRET_KEY
       - master_password
       - master_phone
+    deploy:
+      replicas: 4
+      networks:
+        - myNetwork
+
+networks:
+  myNetwork:
+    driver: overlay
+
 secrets:
   SECRET_KEY:
     file: ./SECRET_KEY.txt
