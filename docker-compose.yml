@@ -1,17 +1,14 @@
-version: "3.7"
+version: "3.1"
 services:
   appsec:
     restart: "no"
     build: .
     ports:
-      - 8080:5000
+      - 8080
     secrets:
       - SECRET_KEY
       - master_password
       - master_phone
-    deploy:
-      mode: replicated
-      replicas: 4
 secrets:
   SECRET_KEY:
     file: ./SECRET_KEY.txt
