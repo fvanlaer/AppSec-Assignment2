@@ -1,4 +1,4 @@
-version: "3.1"
+version: "3.7"
 services:
   appsec:
     restart: "no"
@@ -9,6 +9,9 @@ services:
       - SECRET_KEY
       - master_password
       - master_phone
+    deploy:
+      mode: replicated
+      replicas: 4
 secrets:
   SECRET_KEY:
     file: ./SECRET_KEY.txt
