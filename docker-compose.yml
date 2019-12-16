@@ -4,7 +4,7 @@ services:
     restart: "no"
     build: .
     ports:
-      - 8080
+      - 8080:5000
     secrets:
       - SECRET_KEY
       - master_password
