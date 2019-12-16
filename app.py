@@ -29,8 +29,6 @@ def create_app():
     login_initializing(app)
     app.register_blueprint(blue, url_prefix='')
 
-
-
     return app
 
 
